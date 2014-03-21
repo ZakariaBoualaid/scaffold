@@ -1,0 +1,29 @@
+<h1><%= @course.name %></h1>
+
+
+<div class="span4">
+	
+		<div class="well sidebar-nav">
+	    <ul class="nav nav-list">
+	      <li class="nav-header"></li>
+
+			<% @lessons.each do |lesson| %>
+			      <h1 class="unit-name"><%= lesson.name %></h1>
+			      <% lesson.exercices.each do |exercice| %>
+
+					<li class="exercice-name"><%= link_to exercice.name, long_exercice_path(@course, lesson, exercice)  %></li>
+	
+			      <% end %>
+			<% end %>
+
+	    </ul>
+	  </div><!--/.well -->
+
+</div>
+
+<div class="row span10">
+
+	  
+  
+ </div>
+

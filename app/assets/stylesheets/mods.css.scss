@@ -1,0 +1,34 @@
+// Place all the styles related to the mods controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+h1{
+	font-family: 'lora';
+}
+
+.unit-name{
+	font-size: 26px;
+}
+
+.course-name{
+	font-size: 16px;
+	margin-left: 20px;
+}
+
+.module-card{
+	border-radius: 1px;
+	border: 1px solid #AFD8FF;
+	text-align: center;
+	padding: 10px;
+	float: left;
+	width: 300px;
+	-moz-box-sizing: border-box;
+	margin: 5px 10px;
+	font-size: 20px;
+}
+
+.module-gallery{
+	margin: 0 auto;
+	padding: 50px 0px;
+	width: 1000px;
+}

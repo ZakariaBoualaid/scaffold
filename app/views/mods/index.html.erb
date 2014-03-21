@@ -1,0 +1,10 @@
+
+<div class="row" style="height: 300px;">
+	
+</div>
+
+<div class="row module-gallery">
+	<% @mods.each do |m| %>
+	<a class="span2 module-card" href="modules/<%= m.slug %>"><%= m.name %></a>
+<% end %>
+</div>
