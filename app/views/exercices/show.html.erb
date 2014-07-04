@@ -1,40 +1,12 @@
-<div class="span4">
-
-	<div class="well sidebar-nav">
-	    <ul class="nav nav-list">
-	      <li class="nav-header"></li>
-
-			<% @lessons.each do |lesson| %>
-			      <h1 class="unit-name"><%= lesson.name %></h1>
-			      <% lesson.exercices.each do |exercice| %>
-
-					<li class="exercice-name"><%= link_to exercice.name, long_exercice_path(@course, lesson, exercice)  %></li>
-	
-			      <% end %>
-			<% end %>
-
-	    </ul>
-	</div><!--/.well -->
-
-
-	<div class="well sidebar-nav">
-	    <ul class="nav nav-list">
-	      <li class="nav-header">Instructions</li>
-
-			<%= @exercice.content %>
-
-	    </ul>
-	</div><!--/.well -->	
-	
-</div>
-
-<div class="span7">
-
-	<%= form_tag("", method: 'post') do %>
-
-		<%= text_area_tag(:editor, '', size: '90x20') %> <br>
-		<%= submit_tag 'Check my code' %>
-
+<% content_for :editor do %>
+	<%= form_tag("", method: 'post', :id => 'form-editor') do %>
+		<% if @content != "" %>
+			<%= text_area_tag(:editor, @content) %> <br>
+		<% else %>
+			<%= text_area_tag(:editor, "") %> <br>
+		<% end %>
+		<%= submit_tag 'The Submit button', {class: 'btn btn-default'} %>
+		<%= bootstrap_flash %>
 	<% end %>
+<% end %>
 
-</div>

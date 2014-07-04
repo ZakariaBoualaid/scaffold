@@ -1,13 +1,16 @@
 Scaffold::Application.routes.draw do
  
-  devise_for :users
+  resources :widgets
+
+  devise_for :users, path: "auth", path_names: { sign_in: 'login', sign_out: 'logout', password: 'secret', confirmation: 'verification', unlock: 'unblock', registration: 'register', sign_up: 'cmon_let_me_in' }
+  
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
 
-  root 'static#accueil'
+  root 'static#index'
 
   #resources :mods, :path => 'modules', :param => 'name' do 
   #  resources :courses, :path => false, :param => 'name'
@@ -22,6 +25,8 @@ Scaffold::Application.routes.draw do
   get 'courses/:course/:lesson/:exercice' => 'exercices#show', :as => 'long_exercice'
 
   post 'courses/:course/:lesson/:exercice' => 'exercices#show'
+
+  get '/account' => 'accounts#account'
 
 
   #resources :mods, :path => 'modules', :param => 'name'

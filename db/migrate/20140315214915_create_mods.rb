@@ -3,6 +3,7 @@ class CreateMods < ActiveRecord::Migration
     create_table :mods do |t|
       t.string :name
       t.string :description
+      t.string :slug
 
       t.timestamps
     end

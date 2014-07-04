@@ -11,39 +11,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140319160419) do
+ActiveRecord::Schema.define(version: 20140317061741) do
 
   create_table "courses", force: true do |t|
-    t.integer  "unit_id"
-    t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
     t.string   "name"
     t.string   "slug"
+    t.text     "description"
+    t.integer  "unit_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "courses", ["unit_id"], name: "index_courses_on_unit_id"
 
   create_table "exercices", force: true do |t|
+    t.string   "name"
     t.integer  "lesson_id"
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
   end
 
   add_index "exercices", ["lesson_id"], name: "index_exercices_on_lesson_id"
 
-  create_table "exercices_users", id: false, force: true do |t|
+  create_table "exercices_users", force: true do |t|
     t.integer "exercice_id"
     t.integer "user_id"
   end
 
   create_table "lessons", force: true do |t|
+    t.string   "name"
     t.integer  "course_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
   end
 
   add_index "lessons", ["course_id"], name: "index_lessons_on_course_id"
@@ -51,18 +51,15 @@ ActiveRecord::Schema.define(version: 20140319160419) do
   create_table "mods", force: true do |t|
     t.string   "name"
     t.string   "description"
+    t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "slug"
   end
 
   create_table "units", force: true do |t|
-    t.string   "name"
-    t.string   "description"
-    t.integer  "mod_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "slug"
+    t.string  "name"
+    t.string  "slug"
+    t.integer "mod_id"
   end
 
   add_index "units", ["mod_id"], name: "index_units_on_mod_id"

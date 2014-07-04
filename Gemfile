@@ -36,7 +36,7 @@ end
  gem 'bcrypt-ruby', '~> 3.1.2'
 
 # Use unicorn as the app server
-# gem 'unicorn'
+ gem 'unicorn'
 
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
@@ -45,6 +45,8 @@ end
 # gem 'debugger', group: [:development, :test]
 
 gem 'rspec'
+
+gem 'rspec-rails'
 
 gem 'rails_admin'
 
@@ -58,3 +60,8 @@ group :development do
   gem "better_errors"
   gem "binding_of_caller"
 end
+
+gem "markup"
+gem "redcarpet"
+gem "pygmentize"
+gem "sidekiq"
