@@ -26,14 +26,12 @@ class ExercicesController < ApplicationController
 
 	def check
 		@output_of_test = `ruby app/modules/#{@module}/rspec_#{@course_id}_#{@lesson_id}-#{@exercice_id}.rb #{@token_authenticatable}`
-		@output_for_console = `ruby app/users_progression/#{@token_authenticatable}/#{@module}/#{@course_id}_#{@lesson_id}-#{@exercice_id}.rb`
-		#CONSOLE=`ruby app/users_progression/#{@token_authenticatable}/#{@module}/#{@course_id}_#{@lesson_id}-#{@exercice_id}.r`
-		#@console = @output_for_console.readlines
+		@output_of_console = `ruby app/users_progression/#{@token_authenticatable}/#{@module}/#{@course_id}_#{@lesson_id}-#{@exercice_id}.rb`
+		
 		puts "------------------EXERCICE TEST--------------------"
 		puts @output_of_test
 		puts "---------------------CONSOLE-----------------------"
-		#puts @console
-		print @output_for_console
+		print @output_of_console
 
 		if !@output_of_test.include? "ERROR"
 			@output_of_test = "Nice work!"
@@ -44,7 +42,7 @@ class ExercicesController < ApplicationController
 		end
 		#render js: "output = #{@output}", :content_type => 'text/javascript'
 		#render :partial => 'check_results', :content_type => 'text/html'
-		render :json => {:console => @output_for_console, :output_of_test => @output_of_test, :success => @success}.to_json
+		render :json => {:output_of_console => @output_of_console, :output_of_test => @output_of_test, :success => @success}.to_json
 	end
 
 	def save

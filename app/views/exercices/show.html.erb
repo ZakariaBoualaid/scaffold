@@ -10,12 +10,12 @@
 		<%= hidden_field_tag 'exercice', @exercice_id %>
 		<%= submit_tag 'Check', {class: 'btn btn-success btn-lg btn-cons', style: 'float: right;'} %>
 		<%= image_tag "loading.gif", :style => 'display: none;', :id => 'loading' %>
+            <div id ="check_results" style="display:none;">
+              <h2 id="result_title">Nice Work !</h2>
+              <p id ="result_core"></p>
+            </div>
 	<% end %>
 	
-	<%= content_tag "div", id: "check_results", class: "" do %>
-		
-	<% end %> 
-
 <% end %>
 
 
