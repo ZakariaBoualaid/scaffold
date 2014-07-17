@@ -3,9 +3,9 @@ require 'test/unit'
 class ZaksTestUnit < Test::Unit::TestCase
 
 	class << self
-		def do_require!(filename)
+		def do_require!(filename, usertoken)
 			begin
-				require_relative "../#{filename.split('_')[1]}_#{filename.split('_')[2]}"
+				require_relative "../../users_progression/#{usertoken}/ruby/#{filename.split('_')[1]}_#{filename.split('_')[2]}"
 			rescue Exception => e
 				f = File.new("error_console.log", "w")
 				f.truncate(0)

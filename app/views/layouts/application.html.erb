@@ -38,27 +38,40 @@
     <%= javascript_include_tag :defaults %>
 
   </head>
-  <body style="padding-top:70px;">
+  <body style="">
 
-    <div class="container">
   
-  <div class="navbar navbar-inner navbar-fixed-top">
-    <div class="container">
-          <a class="brand" href="/">Scaffold</a>
-          <ul class="nav">
-              <li><%= link_to "Apprendre", "/modules"  %></li>
-            <% unless current_user %>
-              <li><%= link_to "Se connecter", new_user_session_path  %></li>
-              <li><%= link_to "S'enregistrer", new_user_registration_path  %></li>
-            <% else %>
-              <li><%= link_to "Se déconnecter", destroy_user_session_path, :method => :delete  %></li>
-            <% end %>
-          </ul>
+    <div class="navbar navbar-default" role="navigation">
+      <div class="navbar-inner">
+        <div class="container-editor-nav">
+
+          <div class="container" style="text-align:left;">
+            
+            <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="/">Scaffold</a>
+            <div class=" nav-collapse">
+              <ul class="nav navbar-nav">
+                <li><%= link_to "Apprendre", "/modules"  %></li>
+              <% unless current_user %>
+                <li><%= link_to "Se connecter", new_user_session_path  %></li>
+                <li><%= link_to "S'enregistrer", new_user_registration_path  %></li>
+              <% else %>
+                <li><%= link_to "Se déconnecter", destroy_user_session_path, :method => :delete  %></li>
+              <% end %>
+              </ul>
+            </div><!--/.nav-collapse -->
+
+          </div>
+        </div>
       </div>
     </div>
+
    
-   <div class="container-fluid">
-      <%= bootstrap_flash %>
+   <div class="container">
       <%= yield %>
    </div>
 
@@ -66,7 +79,6 @@
         <p>&copy; Scaffold 2014</p>
       </footer>
 
-    </div> <!-- /container -->
 
   </body>
 </html>

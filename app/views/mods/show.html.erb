@@ -1,28 +1,28 @@
 
 
-<div class="span4">
+<div class="col-md-4">
 
 
 	<ul class="nav nav-list">
 	  <li class="nav-header"></li>
 
-		<h2>Your progress</h2>
+		<h3>Your progress</h3>
 
 	</ul>
 
   
 </div>
 
-<span class="span8">
+<span class="col-md-9">
 	
 	<div class="well sidebar-nav">
 	<ul class="nav nav-list">
 	  <li class="nav-header"></li>
 
 		<% @units.each do |unit| %>
-		      <h1 class="unit-name"><%= unit.name %></h1>
+		      <h3><%= unit.name %></h3>
 		      <% unit.courses.each do |course| %>
-				<li class="course-name"><%= link_to course.name, course_path(course)  %></li>
+				<li class="course-name"><%= link_to course.name, course_path(course) %></li>
 		      <% end %>
 		<% end %>
 

@@ -62,7 +62,7 @@
 
     <div class="container-editor">
         <div class="row">
-          <div class="span3">
+          <div class="col-sm-2 col-exercice" style="position:relative;">
 
                   <% 
                   @course = Course.find_by_slug(params[:course])
@@ -70,54 +70,159 @@
                   @lesson = Lesson.find(params[:lesson])
                   @exercice = Exercice.find(params[:exercice])
                   %>
+      
+                  
+                  <button class="toggle strong exercice_menu_btn" data-toggle="#exercice_menu">
+                    <span style="float:left;" class="badge"><%= params[:lesson]+"."+params[:exercice] %></span>
+                    <%= @exercice.name %>
+                  </button>
 
-                  <% @lessons.each do |lesson| %>
-                        <h1 class="unit-name"><%= lesson.name %></h1>
-                        <% lesson.exercices.each do |exercice| %>
+                  <ol class="exercice_menu_toggle" id="exercice_menu" style="display:none;">
+                  
+                    <% @lessons.each do |lesson| %>
+                          <h5 class="strong" style="font-size:13px;"><%= lesson.name %></h5>
 
-                      <li class="exercice-name<%= ' strong' if @exercice == exercice %>"><%= link_to exercice.name, long_exercice_path(@course, lesson, exercice)  %></li>
-              
-                        <% end %>
-                  <% end %>
+                          <% lesson.exercices.each do |exercice| %>
 
-                  </ul>
+                        <li class="<%= ' strong' if @exercice == exercice %>">
+                          <table>
+                            
+                          <tr>
+                            <td class="" style="padding-right:18px;"><%= "#{lesson.id}.#{exercice.id}" %></td>
+                            <td><%= link_to exercice.name, long_exercice_path(@course, lesson, exercice)  %></td>
+                          </tr>
+                          </table>
+                        </li>
 
-              <div class="well sidebar-nav">
-                  <ul class="nav nav-list">
-                    <li class="nav-header">Instructions</li>
-                  <%= @exercice.markdown(@exercice.content).html_safe %>
+                          <% end %>
+                    <% end %>
+
+                  </ol>
+                    <br>
+                    <br>
+                    <br>
+                    <h4 style="text-align:center; display:none;">Instructions</h4>
+                    <div id="instructions">
+                      <%= @exercice.markdown(@exercice.content).html_safe %>
+                    </div>
                   <%#  @pygmentize.block_code("def cool \n \n \nend").html_safe %>
-                  </ul>
-              </div><!--/.well --> 
 
           </div><!--/span-->
 
-          <div class="span12">
+          <%= content_tag "div", id: "editorDiv", class: "col-md-7 col-editor" do %>
             <%= yield :editor %>
-          </div>
-          <div class="span3 console_section">
-            <center><p>Console</p></center>
-            <div class="console">
-              <%= @error_console %>
-            </div>
-          </div>            
+          <% end %>  
+
+          <%= content_tag "div", id: "consoleDiv", class: "col-md-3" do %>
+            <%= yield :console %>
+          <% end %>      
 
         </div><!--/row-->
-
-      <footer>
-        <p>&copy; Scaffold 2014</p>
-      </footer>
 
     </div> <!-- /container -->
 
   </body>
 
+
   <script type="text/javascript">
-  var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
-    mode: "ruby",
-    lineNumbers: true, theme: "ambiance"
-  });
+
+    $(".toggle").each(function () {
+        that = $(this);
+        that.click(function () {
+            var $elementToToggle = $($(this).data("toggle"));
+            if ($elementToToggle.css("display") != "none") {
+                $elementToToggle.removeClass("active");
+                $elementToToggle.fadeOut();
+            } else {
+                $elementToToggle.addClass("active");
+                $elementToToggle.fadeIn();
+            }
+        });
+    });
+
+    $.urlParam = function(toSplit){
+      var results = window.location.pathname.split('/')[toSplit]
+      return results
+    }
+
+    $(document).click(function (e) {
+        var $elementToToggle = $("#exercice_menu");
+        var $innerElementToToggle = $("#exercice_menu *")
+        var $btnToggle = $(".exercice_menu_btn");
+        if (!$elementToToggle.is(e.target) && !$btnToggle.is(e.target) && !$innerElementToToggle.is(e.target)) {
+            $elementToToggle.fadeOut();
+            $elementToToggle.removeClass("active");
+        }
+    });
+
+    var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
+      mode: "ruby",
+      lineNumbers: true,
+      theme: "ambiance"
+    });
+
+    // window.onload(function(){
+    //   $.ajax({
+    //     url: '/code_save',
+    //     type: 'GET',
+    //     data: {code: c.getValue(), course: $.urlParam(2), lesson: $.urlParam(3), exercice: $.urlParam(4)}
+    //   }).done(function(msg){
+    //   });
+    // });
+
+
+    editor.on('blur',function(c){
+
+      $.ajax({
+        url: '/code_save',
+        type: 'POST',
+        data: {code: c.getValue(), course: $.urlParam(2), lesson: $.urlParam(3), exercice: $.urlParam(4)}
+      }).done(function(msg){
+      });
+
+    });
+
+    var console = CodeMirror.fromTextArea(document.getElementById('console'), {
+      mode: "shell",
+      theme: "ambiance",
+      readOnly: true,
+      cursorBlinkRate: -1
+    });
+
+    $('#form-editor').bind('ajax:before', function(evt, data){
+      $('#check_results').empty()
+      $('#loading').show()
+    });
+
+    $('#form-editor').bind('ajax:success', function(evt, data){
+      success = data['success']
+      console = data['console']
+      output_of_test = data['output_of_test']
+
+      console.setValue(console)
+      $('#check_results').html(output_of_test)
+      $('#loading').hide()
+    });
+
+//data: {course: $.urlParam(2), lesson: $.urlParam(3), exercice: $.urlParam(4)}
+//data: {course: <%= params[:course] %>, lesson: <%= params[:lesson] %>, exercice: <%= params[:exercice] %>}
 </script>
+
+  <%= javascript_tag do %>
+    <% if params[:action] == 'show' and params[:controller] == 'exercices' %>
+    <% #raise params.inspect %>
+    editor.setValue('')    
+    setTimeout(function(){  
+      $.ajax({
+        url: '/fill_editor',
+        type: 'GET',
+        data: {course: $.urlParam(2), lesson: $.urlParam(3), exercice: $.urlParam(4)}
+      }).done(function(msg){
+        editor.setValue(msg)
+      });
+    }, 100);
+    <% end %>
+  <% end %>
 
 </html>
 

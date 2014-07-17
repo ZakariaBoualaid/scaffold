@@ -2,7 +2,7 @@ Scaffold::Application.routes.draw do
  
   resources :widgets
 
-  devise_for :users, path: "auth", path_names: { sign_in: 'login', sign_out: 'logout', password: 'secret', confirmation: 'verification', unlock: 'unblock', registration: 'register', sign_up: 'cmon_let_me_in' }
+  devise_for :users, path: "auth", path_names: { sign_in: 'login', sign_out: 'logout', password: 'secret', confirmation: 'verification', unlock: 'unblock', registration: 'register', sign_up: 'cmon_let_me_in' }, :controllers => {:registrations => 'registrations'}
   
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
   # The priority is based upon order of creation: first created -> highest priority.
@@ -27,6 +27,12 @@ Scaffold::Application.routes.draw do
   post 'courses/:course/:lesson/:exercice' => 'exercices#show'
 
   get '/account' => 'accounts#account'
+
+  post '/code_save' => 'exercices#save'
+
+  post '/check_code' => 'exercices#check'
+
+  get '/fill_editor' => 'exercices#fill'
 
 
   #resources :mods, :path => 'modules', :param => 'name'

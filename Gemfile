@@ -54,7 +54,6 @@ gem 'devise'
 
 gem "therubyracer"
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
-gem "twitter-bootstrap-rails"
 
 group :development do
   gem "better_errors"
@@ -65,3 +64,6 @@ gem "markup"
 gem "redcarpet"
 gem "pygmentize"
 gem "sidekiq"
+gem "acts_as_tenant"
+gem 'test-unit'
+gem 'role_model'

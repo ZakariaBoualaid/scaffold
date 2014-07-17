@@ -1,12 +1,24 @@
 <% content_for :editor do %>
-	<%= form_tag("", method: 'post', :id => 'form-editor') do %>
+	<%= form_tag("/check_code", method: 'post', :id => 'form-editor', :remote => "true") do %>
 		<% if @content != "" %>
 			<%= text_area_tag(:editor, @content) %> <br>
 		<% else %>
 			<%= text_area_tag(:editor, "") %> <br>
 		<% end %>
-		<%= submit_tag 'The Submit button', {class: 'btn btn-default'} %>
-		<%= bootstrap_flash %>
+		<%= hidden_field_tag 'course', @course_id %>
+		<%= hidden_field_tag 'lesson', @lesson_id %>
+		<%= hidden_field_tag 'exercice', @exercice_id %>
+		<%= submit_tag 'Check', {class: 'btn btn-success btn-lg btn-cons', style: 'float: right;'} %>
+		<%= image_tag "loading.gif", :style => 'display: none;', :id => 'loading' %>
 	<% end %>
+	
+	<%= content_tag "div", id: "check_results", class: "" do %>
+		
+	<% end %> 
+
 <% end %>
 
+
+<% content_for :console do %>
+	<%= text_area_tag(:console, @output) %>
+<% end %>

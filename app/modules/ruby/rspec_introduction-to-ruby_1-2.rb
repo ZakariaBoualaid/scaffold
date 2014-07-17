@@ -1,8 +1,11 @@
+$usertoken = ARGV[0]
+ARGV[0] = nil
+
 require_relative 'zaks_test_unit'
 
 class TestUnit < ZaksTestUnit
 
-	do_require!(__FILE__)
+do_require!(File.basename(__FILE__), $usertoken)
 
 	def test
 		zaks_assert_equal($mynum, "$mynum", 25)
