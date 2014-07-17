@@ -161,6 +161,8 @@
       theme: "ambiance"
     });
 
+
+
     // window.onload(function(){
     //   $.ajax({
     //     url: '/code_save',
@@ -203,13 +205,16 @@
       console.setValue(output_of_console)
       $("#check_results").fadeIn();
       $('#loading').hide()
+
       if(success)
       {
          $('#check_results #result_title').html(output_of_test)
-         $('#check_results #result_core').html("Hit Next to move to the next exercice.")
+         $('#check_results #result_core').html("Hit <strong>Next</strong> to move to the next exercice.")
+         $("#next_exercice").fadeIn(100)
       } else {
          $('#check_results #result_title').html("Something's wrong :(")
          $('#check_results #result_core').html(output_of_test)
+         $("#next_exercice").fadeOut(100)
       }
     });
 
