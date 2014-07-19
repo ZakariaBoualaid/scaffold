@@ -1,5 +1,5 @@
 require 'test/unit'
-require 'minitest/autorun'
+
 class ZaksTestUnit < Test::Unit::TestCase
 
 	class << self
