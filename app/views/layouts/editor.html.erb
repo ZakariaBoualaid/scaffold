@@ -199,7 +199,7 @@
 
     $('#form-editor').bind('ajax:success', function(evt, data){
       success = data['success']
-      output_of_console = data['output_of_console']
+      output_of_console = data['console']
       output_of_test = data['output_of_test']
 
       console.setValue(output_of_console)
@@ -208,10 +208,12 @@
 
       if(success)
       {
+         $('#check_results').css("background-color","rgba(38,191,48,.2)")
          $('#check_results #result_title').html(output_of_test)
          $('#check_results #result_core').html("Hit <strong>Next</strong> to move to the next exercice.")
          $("#next_exercice").fadeIn(100)
       } else {
+        $('#check_results').css("background-color","rgba(203,44,44,.2)")
          $('#check_results #result_title').html("Something's wrong :(")
          $('#check_results #result_core').html(output_of_test)
          $("#next_exercice").fadeOut(100)
