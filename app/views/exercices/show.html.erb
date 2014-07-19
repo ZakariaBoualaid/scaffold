@@ -13,7 +13,13 @@
             <div id ="check_results" style="display:none;">
               <h2 id="result_title">Nice Work !</h2>
               <p id ="result_core"></p>
-              <input type="button" id="next_exercice" style="display:none; position:absolute; right:20px; top:50%;" value="Next" class="btn btn-success">
+              <% nextExercice = Exercice.where('id > ?',@exercice_id).order('id ASC').first %>
+              <% if nextExercice != nil and nextExercice.lesson == Lesson.find(@lesson_id) %>
+              	<%= link_to "Next", Exercice.find(@exercice_id).Next, :style => "display:none; position:absolute; right:20px; top:50%;", :class => "btn btn-success", :id => "next_exercice" %>
+              <% else %>
+              	<%= link_to "Go to modules", Exercice.find(@exercice_id).Next, :style => "display:none; position:absolute; right:20px; top:50%;", :class => "btn btn-success", :id => "next_exercice" %>
+              <% end %>
+              
             </div>
 	<% end %>
 	

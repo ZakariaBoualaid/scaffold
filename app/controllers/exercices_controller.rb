@@ -22,22 +22,37 @@ class ExercicesController < ApplicationController
 		@course_id = params[:course]
 		@lesson_id = params[:lesson]
 		@exercice_id = params[:exercice]
+
+		case @module
+		when "ruby"
+			@ext = "rb"
+		when "csharp"
+			@ext = "cs"
+		end
 	end
 
 	def check
-		@output_of_test = `ruby app/modules/#{@module}/rspec_#{@course_id}_#{@lesson_id}-#{@exercice_id}.rb #{@token_authenticatable}`
-		@output_of_console = `ruby app/users_progression/#{@token_authenticatable}/#{@module}/#{@course_id}_#{@lesson_id}-#{@exercice_id}.rb`
-		#CONSOLE=`ruby app/users_progression/#{@token_authenticatable}/#{@module}/#{@course_id}_#{@lesson_id}-#{@exercice_id}.r`
-		#@console = @output_for_console.readlines
+		case @module
+		when "ruby"
+			@output_of_test = `ruby app/modules/#{@module}/rspec_#{@course_id}_#{@lesson_id}-#{@exercice_id}.rb #{@token_authenticatable}`
+			@output_of_console = `ruby app/users_progression/#{@token_authenticatable}/#{@module}/#{@course_id}_#{@lesson_id}-#{@exercice_id}.rb`
+		when "csharp"
+			@output_of_test = ``
+			@output_of_console = ``
+		end
 		puts "------------------EXERCICE TEST--------------------"
 		puts @output_of_test
 		puts "---------------------CONSOLE-----------------------"
 		#puts @console
 		print @output_of_console
 
-		if !@output_of_test.include? "ERROR"
+		unless @output_of_test.include? "ERROR"
 			@output_of_test = "Nice work!"
 			@success = true
+			if ExercicesUser.where(:user => current_user, :exercice => Exercice.find(@exercice_id)).empty?
+				ExercicesUser.create(:user => current_user, :exercice => Exercice.find(@exercice_id)) 
+				current_user.score += 10
+			end
 		else 
 			@success = false
 			@output_of_test = "Error " + @output_of_test.partition("ERROR").last.partition(".").first + "."
@@ -49,7 +64,7 @@ class ExercicesController < ApplicationController
 
 	def save
 		@code = params[:code]
-		file = File.open("app/users_progression/#{@token_authenticatable}/#{@module}/#{@course_id}_#{@lesson_id}-#{@exercice_id}.rb", "w")
+		file = File.open("app/users_progression/#{@token_authenticatable}/#{@module}/#{@course_id}_#{@lesson_id}-#{@exercice_id}.#{@ext}", "w")
 		file.truncate(0)
 		file.write(@code)
 		file.close
@@ -60,15 +75,15 @@ class ExercicesController < ApplicationController
 		Dir.mkdir("app/users_progression/#{@token_authenticatable}/#{@module}/") unless File.directory?("app/users_progression/#{@token_authenticatable}/#{@module}/")
 
 		@exercices_entry = Dir.entries("app/users_progression/#{@token_authenticatable}/#{@module}/")
-		unless @exercices_entry.include?("#{@course_id}_#{@lesson_id}-#{@exercice_id}.rb")
-			file = File.new("app/users_progression/#{@token_authenticatable}/#{@module}/#{@course_id}_#{@lesson_id}-#{@exercice_id}.rb","w")
+		unless @exercices_entry.include?("#{@course_id}_#{@lesson_id}-#{@exercice_id}.#{@ext}")
+			file = File.new("app/users_progression/#{@token_authenticatable}/#{@module}/#{@course_id}_#{@lesson_id}-#{@exercice_id}.#{@ext}","w")
 		end
 
 		Dir.mkdir("app/modules/#{@module}/") unless File.directory?("app/modules/#{@module}/")
 
 		@rspec_entry = Dir.entries("app/modules/#{@module}/")
 		unless @rspec_entry.include?("rspec_#{@course_id}_#{@lesson_id}-#{@exercice_id}.rb")
-			file = File.new("app/modules/#{@module}/rspec_#{@course_id}_#{@lesson_id}-#{@exercice_id}.rb","w")
+			file = File.new("app/modules/#{@module}/rspec_#{@course_id}_#{@lesson_id}-#{@exercice_id}.#{@ext}","w")
 		end
 
 		render layout: 'editor'
@@ -76,7 +91,7 @@ class ExercicesController < ApplicationController
 
 	def fill
 		@content = ""
-		file = File.open("app/users_progression/#{@token_authenticatable}/#{@module}/#{@course_id}_#{@lesson_id}-#{@exercice_id}.rb", "r")
+		file = File.open("app/users_progression/#{@token_authenticatable}/#{@module}/#{@course_id}_#{@lesson_id}-#{@exercice_id}.#{@ext}", "r")
 		file.each do |line|
 			@content += line
 		end
