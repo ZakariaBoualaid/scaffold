@@ -161,6 +161,8 @@
       theme: "ambiance"
     });
 
+
+
     // window.onload(function(){
     //   $.ajax({
     //     url: '/code_save',
@@ -190,18 +192,32 @@
     });
 
     $('#form-editor').bind('ajax:before', function(evt, data){
-      $('#check_results').empty()
+      //$('#check_results').empty()
+      $("#check_results").fadeOut();
       $('#loading').show()
     });
 
     $('#form-editor').bind('ajax:success', function(evt, data){
       success = data['success']
-      console = data['console']
+      output_of_console = data['console']
       output_of_test = data['output_of_test']
 
-      console.setValue(console)
-      $('#check_results').html(output_of_test)
+      console.setValue(output_of_console)
+      $("#check_results").fadeIn();
       $('#loading').hide()
+
+      if(success)
+      {
+         $('#check_results').css("background-color","rgba(38,191,48,.2)")
+         $('#check_results #result_title').html(output_of_test)
+         $('#check_results #result_core').html("Hit <strong>Next</strong> to move to the next exercice.")
+         $("#next_exercice").fadeIn(100)
+      } else {
+        $('#check_results').css("background-color","rgba(203,44,44,.2)")
+         $('#check_results #result_title').html("Something's wrong :(")
+         $('#check_results #result_core').html(output_of_test)
+         $("#next_exercice").fadeOut(100)
+      }
     });
 
 //data: {course: $.urlParam(2), lesson: $.urlParam(3), exercice: $.urlParam(4)}

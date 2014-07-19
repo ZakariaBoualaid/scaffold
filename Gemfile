@@ -67,3 +67,4 @@ gem "sidekiq"
 gem "acts_as_tenant"
 gem 'test-unit'
 gem 'role_model'
+gem 'minitest'

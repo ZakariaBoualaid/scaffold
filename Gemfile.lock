@@ -226,6 +226,7 @@ DEPENDENCIES
   jquery-rails
   less-rails
   markup
+  minitest
   pygmentize
   rails (= 4.0.2)
   rails_admin

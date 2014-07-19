@@ -8,14 +8,15 @@
 		<%= hidden_field_tag 'course', @course_id %>
 		<%= hidden_field_tag 'lesson', @lesson_id %>
 		<%= hidden_field_tag 'exercice', @exercice_id %>
-		<%= submit_tag 'Check', {class: 'btn btn-success btn-lg btn-cons', style: 'float: right;'} %>
+		<%= submit_tag 'Check', {class: 'btn btn-primary', style: 'float: right;'} %>
 		<%= image_tag "loading.gif", :style => 'display: none;', :id => 'loading' %>
+            <div id ="check_results" style="display:none;">
+              <h2 id="result_title">Nice Work !</h2>
+              <p id ="result_core"></p>
+              <input type="button" id="next_exercice" style="display:none; position:absolute; right:20px; top:50%;" value="Next" class="btn btn-success">
+            </div>
 	<% end %>
 	
-	<%= content_tag "div", id: "check_results", class: "" do %>
-		
-	<% end %> 
-
 <% end %>
 
 
