@@ -3,6 +3,8 @@ ARGV[0] = nil
 
 require_relative 'zaks_test_unit'
 
+#puts $usertoken
+
 class TestUnit < ZaksTestUnit
 
 do_require!(File.basename(__FILE__), $usertoken)

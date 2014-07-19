@@ -55,6 +55,7 @@ class ExercicesController < ApplicationController
 	end
 
 	def show
+
 		Dir.mkdir("app/users_progression/#{@token_authenticatable}/#{@module}/") unless File.directory?("app/users_progression/#{@token_authenticatable}/#{@module}/")
 
 		@exercices_entry = Dir.entries("app/users_progression/#{@token_authenticatable}/#{@module}/")
@@ -66,7 +67,7 @@ class ExercicesController < ApplicationController
 
 		@rspec_entry = Dir.entries("app/modules/#{@module}/")
 		unless @rspec_entry.include?("rspec_#{@course_id}_#{@lesson_id}-#{@exercice_id}.rb")
-			file = File.new("app/users_progression/rspec/rspec_#{@course_id}_#{@lesson_id}-#{@exercice_id}.rb","w")
+			file = File.new("app/modules/#{@module}/rspec_#{@course_id}_#{@lesson_id}-#{@exercice_id}.rb","w")
 		end
 
 		render layout: 'editor'
