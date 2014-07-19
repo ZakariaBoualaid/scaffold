@@ -14,3 +14,8 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+    var railsAdminEditor = CodeMirror.fromTextArea(document.getElementById("#exercice_content"), {
+      mode: "markdown",
+      theme: "ambiance"
+    });

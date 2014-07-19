@@ -49,6 +49,22 @@ html{
 
 #form-editor{
 	margin-left: 70px;
+	position: relative;
+}
+
+#check_results{
+	position: absolute;
+	bottom: 20px;
+	width: 100%;
+	color:white;
+	height: 14%;
+	padding: 0px 15px 0px 45px;
+	background-color: rgba(35,154,56,.2);
+	z-index: 9999;
+}
+
+#loading{
+	position: absolute;
 }
 
 .console_section{
