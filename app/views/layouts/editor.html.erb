@@ -101,9 +101,13 @@
                     <br>
                     <br>
                     <br>
-                    <h4 style="text-align:center; display:none;">Instructions</h4>
+                    <div id="description">
+                      <%= @exercice.markdown(@exercice.description).html_safe %>
+                    </div>
+                    <br><br>
                     <div id="instructions">
-                      <%= @exercice.markdown(@exercice.content).html_safe %>
+                      <h4 style="text-align:center;" id="instructions_title">Instructions</h4>
+                      <p><%= @exercice.markdown(@exercice.content).html_safe %></p>
                     </div>
                   <%#  @pygmentize.block_code("def cool \n \n \nend").html_safe %>
 
@@ -158,10 +162,10 @@
     var editor = CodeMirror.fromTextArea(document.getElementById('editor'), {
       mode: "ruby",
       lineNumbers: true,
-      theme: "ambiance"
+      theme: "ambiance",
+      indentUnit: 8,
+      tabSize: 10
     });
-
-
 
     // window.onload(function(){
     //   $.ajax({

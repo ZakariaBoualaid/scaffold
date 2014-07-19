@@ -28,6 +28,8 @@ class ExercicesController < ApplicationController
 			@ext = "rb"
 		when "csharp"
 			@ext = "cs"
+		when "javascript"
+			@ext = "js"
 		end
 	end
 
@@ -37,8 +39,10 @@ class ExercicesController < ApplicationController
 			@output_of_test = `ruby app/modules/#{@module}/rspec_#{@course_id}_#{@lesson_id}-#{@exercice_id}.rb #{@token_authenticatable}`
 			@output_of_console = `ruby app/users_progression/#{@token_authenticatable}/#{@module}/#{@course_id}_#{@lesson_id}-#{@exercice_id}.rb`
 		when "csharp"
-			@output_of_test = ``
-			@output_of_console = ``
+			#@output_of_test = `gmcs app/modules/#{@module}/`
+			@output_of_test = "not yet.."
+			`gmcs app/users_progression/#{@token_authenticatable}/#{@module}/#{@course_id}_#{@lesson_id}-#{@exercice_id}.cs`
+			@output_of_console = `mono app/users_progression/#{@token_authenticatable}/#{@module}/#{@course_id}_#{@lesson_id}-#{@exercice_id}.exe`
 		end
 		puts "------------------EXERCICE TEST--------------------"
 		puts @output_of_test
